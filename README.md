@@ -290,3 +290,88 @@ int main(void) {
   cout << "Total paint cost: $" << rect.getCost(area) << endl;
 }
 ```
+
+## 12、重载
+
+在同一个作用域内，可以声明几个功能类似的同名函数，但是这些同名函数的形式参数（指参数的个数、类型或者顺序）必须不同。您不能仅通过返回类型的不同来重载函数。
+
+[重载代码](20overload/main.cpp)
+
+```c++
+#include <iostream>
+using namespace std;
+class PrintData {
+public:
+  void print(int i) { cout << "整数为：" << i << endl; }
+  void print(double f) { cout << "浮点数为：" << f << endl; }
+  void print(char *c) { cout << "字符串为：" << c << endl; }
+};
+int main() {
+  PrintData pd;
+  pd.print(5);
+  pd.print(500.263);
+  pd.print("hello world");
+  return 0;
+}
+```
+
+## 13、运算符重载
+
+重载的运算符是带有特殊名称的函数，函数名是由关键字 operator 和其后要重载的运算符符号构成的。与其他函数一样，重载运算符有一个`返回类型`和一个`参数列表`。
+
+[重载代码](21overloadoperator/main.cpp)
+
+例如：Box operator+(const Box&);
+
+```c++
+#include <iostream>
+using namespace std;
+class Box {
+public:
+  double getVolume() { return length * breadth * height; }
+  void setLength(double len) { length = len; }
+  void setBreadth(double bre) { breadth = bre; }
+  void setHeight(double hei) { height = hei; }
+  Box operator+(const Box &b) { // 参数是引用，为了增加效率同时防止修改
+    Box box;
+    box.length = this->length + b.length;
+    box.breadth = this->breadth + b.breadth;
+    box.height = this->height + b.height;
+    return box;
+  }
+
+private:
+  double length;  // 长度
+  double breadth; // 宽度
+  double height;  // 高度
+};
+
+int main(void) {
+  Box box1; // 声明 box1，类型为 Box
+  Box box2; // 声明 box2，类型为 Box
+  Box box3; // 声明 box3，类型为 Box
+
+  double volumn = 0.0; // 定义体积变量
+
+  // box1 详述
+  box1.setHeight(5.0);
+  box1.setBreadth(7.0);
+  box1.setLength(6.0);
+
+  // box2 详述
+  box2.setHeight(12.0);
+  box2.setBreadth(13.0);
+  box2.setLength(10.0);
+
+  volumn = box1.getVolume(); // 返回 box1 的体积
+  cout << "box1 的体积：" << volumn << endl;
+  volumn = box2.getVolume(); // 返回 box2 的体积
+  cout << "box2 的体积：" << volumn << endl;
+
+  box3 = box1 + box2;        // 将两个 box 相加
+  volumn = box3.getVolume(); // 返回 box3 的体积
+  cout << "box3 的体积：" << volumn << endl;
+
+  return 0;
+}
+```
