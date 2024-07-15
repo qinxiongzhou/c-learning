@@ -593,3 +593,75 @@ int main() {
   }
 }
 ```
+
+## 18、动态分配
+[动态分配](26dynamicmemory/main.cpp)
+```c++
+/**
+ * C++ 程序中的内存分为两个部分：
+ * 栈：在函数内部声明的所有变量都将占用栈内存。
+ * 堆：这是程序中未使用的内存，在程序运行时可用于动态分配内存。
+ *
+ * 在 C++ 中，创建对象的方式主要有两种：动态分配和静态（或自动）分配
+ *
+ * 1、动态分配（使用 new 关键字）
+ *  Box* myBox = new Box();
+ *  内存分配：这行代码使用new操作符在堆（heap）上动态分配内存。堆是一个用于动态内存分配的内存区域，程序运行时可以从中分配和释放内存。
+ *  生命周期：由new创建的对象的生命周期直到使用delete显式释放它们的内存之前都一直存在。这意味着，除非你主动释放内存，否则对象会一直存在，即使它的作用域已经结束。
+ *  访问方式：通过指针访问对象。你需要使用指针操作符 -> 来访问对象的成员。
+ *  内存管理责任：使用new创建对象后，你需要负责在适当的时候使用delete来释放内存，否则会导致内存泄漏。
+ *
+ * 2、静态（自动）分配
+ *  Box myBox;
+ *  内存分配：这行代码在栈（stack）上分配内存。栈是一个用于存储局部变量的内存区域，它具有自动的内存管理特性，即变量在其作用域结束时自动销毁。
+ *  生命周期：栈上的对象的生命周期与其作用域绑定。当对象的作用域结束时（例如，函数返回时），对象会自动被销毁，其析构函数会被调用。
+ *  访问方式：直接通过对象名访问。使用点操作符 . 来访问对象的成员。
+ *  内存管理责任：不需要程序员手动管理内存。对象的创建和销毁完全自动化，无需担心内存泄漏。
+ */
+#include <iostream>
+using namespace std;
+class Box {
+public:
+  Box() { cout << "Constructor called." << endl; }
+  ~Box() { cout << "Destructor called." << endl; }
+};
+int main() {
+  Box *myBox = new Box();
+  delete myBox;
+  return 0;
+}
+```
+
+## 19、命名空间
+[命名空间代码](27namespace/main.cpp)
+```c++
+/**
+ * 命名空间：可作为附加信息来区分不同库中相同名称的函数、类、变量等。
+ * 本质上，命名空间就是定义了一个范围。
+ * namespace namespace_name {// 代码声明}
+ *
+ * 命名空间可以定义在几个不同的部分中，因此命名空间是由几个单独定义的部分组成的。一个命名空间的各个组成部分可以分散在多个文件中
+ * 命名空间可以嵌套，您可以在一个命名空间中定义另一个命名空间，如下所示：
+ * namespace namespace_name1 {
+ * // 代码声明
+ *  namespace namespace_name2 {
+ *   // 代码声明
+ * }}
+ */
+#include <iostream>
+using namespace std;
+// 第一个命名空间
+namespace first_space {
+void func() { cout << "Inside first_space" << endl; }
+} // namespace first_space
+// 第二个命名空间
+namespace second_space {
+void func() { cout << "Inside second_space" << endl; }
+} // namespace second_space
+
+using namespace first_space;
+int main() {
+  func();
+  return 0;
+}
+```
