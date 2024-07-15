@@ -57,8 +57,14 @@
     "__threading_support": "cpp",
     "__tuple": "cpp",
     "array": "cpp",
-    "iomanip": "cpp"
+    "iomanip": "cpp",
+    "optional": "cpp"
   },
   "C_Cpp.errorSquiggles": "enabled",
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "gitlens.plusFeatures.enabled": false,
+  "gitlens.currentLine.format": "${author}, ${agoOrDate}${' via 'pullRequest}${ → message|50?}",
+  "gitlens.statusBar.format": "${author}, ${agoOrDate}${' via 'pullRequest} → ${message|50?}",
+  "gitlens.blame.format": "${author}, ${message|25?}, ${agoOrDate|5-}",
+  "gitlens.blame.compact": false,
 }

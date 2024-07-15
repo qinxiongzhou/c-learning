@@ -375,3 +375,221 @@ int main(void) {
   return 0;
 }
 ```
+
+
+## 14、多态
+[多态代码](22polymorphism/main.cpp)
+```c++
+/**
+ * C++ 多态意味着调用成员函数时，会根据调用函数的对象的类型来执行不同的函数。
+ * 虚函数 是在基类中使用关键字 virtual
+ * 声明的函数。在派生类中重新定义基类中定义的虚函数时，会告诉编译器不要静态链接到该函数。
+ * 我们想要的是在程序中任意点可以根据所调用的对象类型来选择调用的函数，这种操作被称为动态链接，或后期绑定。
+ */
+#include <iostream>
+using namespace std;
+class Shape {
+protected:
+  int width, height;
+
+public:
+  Shape(int a, int b) {
+    width = a;
+    height = b;
+  };
+  virtual int area() {
+    cout << "parent class area :" << endl;
+    return 0;
+  }
+};
+class Rectangle : public Shape {
+public:
+  Rectangle(int a = 0, int b = 0) : Shape(a, b){};
+  int area() {
+    cout << "Rectangle class area :" << endl;
+    return width * height;
+  }
+};
+class Triangle : public Shape {
+public:
+  Triangle(int a = 0, int b = 0) : Shape(a, b){};
+  int area() {
+    cout << "Triangle class area :" << endl;
+    return width * height / 2;
+  }
+};
+int main() {
+  Shape *shape;
+  Rectangle rectangle(10, 7);
+  Triangle triangle(10, 5);
+  shape = &rectangle;
+  shape->area();
+  shape = &triangle;
+  shape->area();
+  return 0;
+}
+```
+
+您可能想要在基类中定义虚函数，以便在派生类中重新定义该函数更好地适用于对象，但是您在基类中又不能对虚函数给出有意义的实现，这个时候就会用到纯虚函数。
+
+```c++
+class Shape {
+   protected:
+      int width, height;
+   public:
+      Shape( int a=0, int b=0)
+      {
+         width = a;
+         height = b;
+      }
+      // pure virtual function
+      virtual int area() = 0;
+};
+```
+
+## 15、抽象类、接口
+[抽象类代码](23abstractclass/main.cpp)
+```c++
+/**
+ * 如果类中至少有一个函数被声明为纯虚函数，则这个类就是抽象类。纯虚函数是通过在声明中使用
+ * "= 0" 来指定的。
+ * 接口可以被视为一个特殊的抽象类，没有成员变量和实现的函数（全部都是纯虚函数）。而抽象类可以有成员变量和和提供默认实现的普通虚函数
+ */
+#include <iostream>
+using namespace std;
+// 抽象类
+class Shape {
+public:
+  // 纯虚函数
+  virtual int getArea() = 0;
+  void setWidth(int w) { width = w; }
+  void setHeight(int h) { height = h; }
+
+protected:
+  int width, height;
+};
+// 派生类
+class Rectangle : public Shape {
+public:
+  int getArea() { return (width * height); }
+};
+class Triangle : public Shape {
+public:
+  int getArea() { return (width * height / 2); }
+};
+int main() {
+  Rectangle rect;
+  Triangle tri;
+
+  rect.setWidth(5);
+  rect.setHeight(7);
+  // 输出对象的面积
+  cout << "Total Rectangle area: " << rect.getArea() << endl;
+
+  tri.setWidth(5);
+  tri.setHeight(7);
+  // 输出对象的面积
+  cout << "Total Triangle area: " << tri.getArea() << endl;
+
+  return 0;
+}
+```
+
+## 16、文件流
+[文件流代码](24fileandstream/main.cpp)
+
+```c++
+/**
+ * 要在 C++ 中进行文件处理，必须在 C++ 源代码文件中包含头文件 <iostream> 和
+ * <fstream>。 在从文件读取信息或者向文件写入信息之前，必须先打开文件。ofstream
+ * 和 fstream
+ * 对象都可以用来打开文件进行写操作，如果只需要打开文件进行读操作，则使用
+ * ifstream 对象。下面是 open() 函数的标准语法，open() 函数是 fstream、ifstream
+ * 和 ofstream 对象的一个成员
+ *
+ */
+#include <fstream>
+#include <iostream>
+using namespace std;
+int main() {
+  char data[100];
+
+  // 以写模式打开文件
+  ofstream outfile;
+  outfile.open("afile.txt");
+
+  cout << "Writing to the file" << endl;
+  cout << "Enter your name: ";
+  cin.getline(data, 100);
+
+  // 向文件写入用户输入的数据
+  outfile << data << endl;
+  cout << "Enter your age: ";
+  cin >> data;
+  cin.ignore();
+
+  // 再次向文件写入用户输入的数据
+  outfile << data << endl;
+
+  // 关闭打开的文件
+  outfile.close();
+
+  // 以读模式打开文件
+  ifstream infile;
+  infile.open("afile.txt");
+
+  cout << "Reading from the file" << endl;
+  infile >> data;
+
+  // 在屏幕上写入数据
+  cout << data << endl;
+
+  // 再次从文件读取数据，并显示它
+  infile >> data;
+  cout << data << endl;
+
+  // 关闭打开的文件
+  infile.close();
+
+  return 0;
+}
+```
+
+## 17、异常
+[异常代码](25exception/main.cpp)
+```c++
+/**
+ * 如果有一个块抛出一个异常，捕获异常的方法会使用 try 和 catch 关键字。try
+ 块中放置可能抛出异常的代码，try 块中的代码被称为保护代码。使用 try/catch
+ 语句的语法如下所示：
+ * try{
+   // 保护代码
+   }catch( ExceptionName e1 ){
+   // catch 块
+   }catch( ExceptionName e2 ){
+   // catch 块
+   }catch( ExceptionName eN ){
+   // catch 块}
+ */
+#include <exception>
+#include <iostream>
+#include <string>
+using namespace std;
+struct MyException : public exception {
+  string message; // 用于存储错误信息的字符串
+  // 构造函数，将错误信息保存到成员变量中
+  MyException(const string &message) : message(message) {}
+  const char *what() const throw() { return message.c_str(); }
+};
+int main() {
+  try {
+    /* code */
+    throw MyException("Custom C++ Exception with parameters");
+  } catch (const MyException &e) {
+    cout << "MyException caught" << '\n';
+    cout << e.what() << '\n';
+  } catch (const std::exception &e) {
+    std::cerr << e.what() << '\n';
+  }
+}
+```
