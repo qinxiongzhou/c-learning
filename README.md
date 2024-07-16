@@ -735,3 +735,67 @@ int main() {
   return 0;
 }
 ```
+
+## 21、#define 宏
+[define](29define/main.cpp)
+```c++
+/**
+ * #define 预处理指令用于创建符号常量，改符号常量通常称为宏，指令的一般形式为：
+ * #define macro-name replacement-text
+ *
+ * 当这一行代码出现在一个文件中时，在该文件中后续出现的所有宏都将会在程序编译之前被替换为replacement-text。
+ */
+#include <iostream>
+using namespace std;
+#define PI 3.14159
+int main() {
+  cout << "Value of PI :" << PI << endl;
+  return 0;
+}
+```
+使用 -E 进行编译，并把结果重定向到 main.p 文件，将会看到他已经包含大量的信息，而且在文件底部的值被改为如下
+```shell
+g++ -E main.cpp > main.p
+```
+```c++
+...
+using namespace std;
+
+int main() {
+  cout << "Value of PI :" << 3.14159 << endl;
+  return 0;
+}
+
+```
+
+## 22、#ifdef 条件编译
+```c++
+/**
+ * 通过#define #ifndef #ifdef #endif 可以实现条件
+ * 有选择地对部分程序源代码进行编译
+ *
+ * 在命令行中操作宏定义，现在源代码中注释掉 #define DEBUG
+ * 使用 -DDEBUG 选项来定义 DEBUG 宏
+ */
+#include <iostream>
+using namespace std;
+#define DEBUG
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+int main() {
+  int i, j;
+  i = 100;
+  j = 30;
+#ifdef DEBUG
+  cerr << "Trace: Inside main function" << endl;
+#endif
+
+#if 0
+    /* 这是注释部分 */
+   cout << MKSTR(HELLO C++) << endl;
+#endif
+  cout << "The minimum is " << MIN(i, j) << endl;
+#ifdef DEBUG
+  cerr << "Trace: Coming out of main function" << endl;
+#endif
+}
+```
