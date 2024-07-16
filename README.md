@@ -48,6 +48,15 @@
 在 setting.json 文件中，设置文件保存后自动格式化
 `"editor.formatOnSave": true`
 
+### 工作区展示 std 库内容
+在任意一个项目文件中，找到 std 库的使用，点击跳转到 std 库源代码位置，找到std 库源代码路径。   
+例如：/opt/rh/gcc-toolset-13/root/usr/include/c++/13/bits
+
+vscode 选择 `文件` > `添加文件夹到工作区...`，然后选择std库头文件所在的文件夹。
+即可在工作区中同时浏览项目文件和 std 库文件。点击跳转std 库源代码时，工作区也会自动定位到该源代码文件上。
+
+![工作区展示 std 库内容](image/setting_workspace.png)
+
 ## 4、static 的使用
 
 `const` 和 `static` 是 C++ 中用于声明变量的关键字，它们有不同的作用和行为。
