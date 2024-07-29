@@ -6,8 +6,18 @@
  */
 #include <iostream>
 using namespace std;
-#define PI 3.14159
+// #define PI 3.14159
+// int main() {
+//   cout << "Value of PI :" << PI << endl;
+//   return 0;
+// }
+
+#define CALL_WITH_MAX(a, b) ((a) > (b) ? (a) : (b))
 int main() {
-  cout << "Value of PI :" << PI << endl;
+  int a = 5, b = 0;
+  CALL_WITH_MAX(++a, b);
+  std::cout << "Value of a after macro call: " << a << std::endl;
+  CALL_WITH_MAX(++a, b + 10);
+  std::cout << "Value of a after macro call: " << a << std::endl;
   return 0;
 }
